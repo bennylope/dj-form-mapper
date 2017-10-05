@@ -11,11 +11,11 @@ class DogForm(forms.Form, LabelMapper):
 
 def test_data_required():
     with pytest.raises(ValueError):
-        DogForm.from_data()
+        DogForm.from_labels()
 
 
 def test_basic_inverted_data():
-    form = DogForm.from_data({'Dog name': 'Rex'})
+    form = DogForm.from_labels({'Dog name': 'Rex'})
     assert form.is_valid()
     assert form.cleaned_data == {
         'name': 'Rex',
@@ -24,7 +24,7 @@ def test_basic_inverted_data():
 
 
 def test_more_inverted_data():
-    form = DogForm.from_data({'Dog name': 'Rex', 'birthday': date.today()})
+    form = DogForm.from_labels({'Dog name': 'Rex', 'birthday': date.today()})
     assert form.is_valid()
     assert form.cleaned_data == {
         'name': 'Rex',
@@ -33,10 +33,10 @@ def test_more_inverted_data():
 
 
 def test_invalid_names():
-    form = DogForm.from_data({'Dog\'s name': 'Rex', 'Birthday': date.today()})
+    form = DogForm.from_labels({'Dog\'s name': 'Rex', 'Birthday': date.today()})
     assert not form.is_valid()
 
-    form = DogForm.from_data({'Dog name': 'Rex'})
+    form = DogForm.from_labels({'Dog name': 'Rex'})
     assert form.is_valid()
     assert form.cleaned_data == {
         'name': 'Rex',
@@ -46,7 +46,7 @@ def test_invalid_names():
 
 def test_remapping():
     """Should be able to provide alternae mapping"""
-    form = DogForm.from_data(
+    form = DogForm.from_labels(
         {'Dog\'s name': 'Rex', 'birthday': date.today()},
         mapping={'name': 'Dog\'s name'},
     )

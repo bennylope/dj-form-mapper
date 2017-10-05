@@ -3,12 +3,12 @@ Django form class mixin that eases data ingestion and validation using
 alternative keys for field names.
 """
 
-# TODO handle translated strings
 
 class LabelMapper(object):
+    # TODO handle translated strings
 
     @classmethod
-    def from_data(cls, data=None, language=None, mapping=None, *args, **kwargs):
+    def from_labels(cls, data=None, language=None, mapping=None, *args, **kwargs):
         """
         Initialize a form instance using data with alternate keys
 
