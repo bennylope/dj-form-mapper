@@ -40,7 +40,7 @@ Use the mixin with your form class::
 Initialize a new form instance::
 
     >>> non_form_post_data = {"What is your name?": "Bob Barker"}
-    >>> form = MyForm.from_data(data=non_form_post_data)
+    >>> form = MyForm.from_labels(data=non_form_post_data)
     >>> form.is_valid()
     True
     >>> form.cleaned_data['name']
