@@ -33,9 +33,12 @@ Use the mixin with your form class::
 
     from form_mapper import LabelMapper
 
-    class MyForm(LabelMapper, forms.Form):
+    class MyForm(forms.Form, LabeledMixin):
         name = forms.CharField(label="What is your name?")
-        
+
+    class DogForm(forms.Form):
+        name = forms.CharField(label="What is your dog's name")
+
 
 Initialize a new form instance::
 
@@ -45,6 +48,23 @@ Initialize a new form instance::
     True
     >>> form.cleaned_data['name']
     'Bob Barker'
+
+ Or use the function without the mixin::
+
+
+    >>> from form_mapper import labeled_form
+    >>> non_form_post_data = {"What is your dog's name?": "Vlad"}
+    >>> form = labeled_form(DogForm, data=non_form_post_data)
+    >>> form.is_valid()
+    True
+    >>> form.cleaned_data['name']
+    'Vlad'
+
+TODO
+====
+
+- regex based label matching
+- multilingual label matching
 
 License
 =======

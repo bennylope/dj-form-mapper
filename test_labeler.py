@@ -1,11 +1,19 @@
-from django import forms
-from form_mapper import LabelMapper
 from datetime import date
+
 import pytest
+from django import forms
+
+from form_mapper import LabeledMixin
+from form_mapper import labeled_form
 
 
-class DogForm(forms.Form, LabelMapper):
+class DogForm(forms.Form, LabeledMixin):
     name = forms.CharField(label='Dog name')
+    birthday = forms.DateField(required=False)
+
+
+class CatForm(forms.Form):
+    name = forms.CharField(label='Cat name')
     birthday = forms.DateField(required=False)
 
 
@@ -54,5 +62,14 @@ def test_remapping():
     assert form.cleaned_data == {
         'name': 'Rex',
         'birthday': date.today(),
+    }
+
+
+def test_inverted_data_from_form():
+    form = labeled_form(CatForm, data={'Cat name': 'Felix'})
+    assert form.is_valid()
+    assert form.cleaned_data == {
+        'name': 'Felix',
+        'birthday': None,
     }
 
